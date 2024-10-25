@@ -29,6 +29,8 @@ for _ in range(num_simulations):
 # Обчислення ймовірностей для симуляції:
 simulated_probablilies = {s: (count / num_simulations) * 100 for s, count in sum_counts.items()}
 
+print("Див. readme.md для висновків щодо порівняння результатів.")
+
 # Виводимо результат симуляції та порівняння з аналітичними результатами
 print("Сума\tІмовіорність (Монте- Карло)\tІмовірність (аналітична)\tРізниця")
 for s in range(2, 13):
@@ -36,3 +38,4 @@ for s in range(2, 13):
     analytical = analytical_probabilities [s]
     difference = simulated - analytical
     print(f"{s}\t{simulated:.2f}%\t\t{analytical:.2f}%\t\t{difference:.2f}%")
+    
