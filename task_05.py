@@ -1,6 +1,5 @@
 import matplotlib.pyplot as plt
 import networkx as nx
-import random
 import time
 
 # Клас для вузла дерева
@@ -18,6 +17,16 @@ def insert_level_order(arr, root, i, n):
         root.left = insert_level_order(arr, root.left, 2 * i + 1, n)
         root.right = insert_level_order(arr, root.right, 2 * i + 2, n)
     return root
+
+# Функція для генерації кольорів від темного до світлого
+def generate_gradient_colors(num_colors):
+    colors = []
+    for i in range(num_colors):
+        # Генерація кольору від темного (#000000) до світлого (#FFFFFF)
+        intensity = int(255 * (i / (num_colors - 1)))
+        color = f'#{intensity:02x}{intensity:02x}{intensity:02x}'
+        colors.append(color)
+    return colors
 
 # Функція для малювання дерева та його оновлення на кожному кроці обходу
 def draw_tree_with_colors(tree_root, visited_nodes, pos=None, node_colors=None):
@@ -50,10 +59,12 @@ def dfs(root):
         return
     stack = [root]
     visited = set()
-    node_colors = ['#999999'] * 6  # Заздалегідь встановлені сірі кольори для 6 вузлів
     visited_nodes = []
     
-    color_step = 256 // len(node_colors)  # Крок для зміни кольору
+    # Генерація градієнтних кольорів
+    num_nodes = 6  # Приклад для 6 вузлів
+    node_colors = ['#999999'] * num_nodes  # Сірі кольори для початкового стану
+    gradient_colors = generate_gradient_colors(num_nodes)
     
     while stack:
         current = stack.pop()
@@ -61,8 +72,8 @@ def dfs(root):
             visited.add(current.value)
             visited_nodes.append(current.value)
             
-            # Змінюємо колір вузла при його відвідуванні
-            node_colors[visited_nodes.index(current.value)] = '#' + ''.join(random.choices('0123456789ABCDEF', k=6))
+            # Присвоєння градієнтного кольору
+            node_colors[visited_nodes.index(current.value)] = gradient_colors[len(visited_nodes) - 1]
             draw_tree_with_colors(root, visited_nodes, node_colors=node_colors)
             
             if current.right:
@@ -78,10 +89,12 @@ def bfs(root):
         return
     queue = [root]
     visited = set()
-    node_colors = ['#999999'] * 6  # Заздалегідь встановлені сірі кольори для 6 вузлів
     visited_nodes = []
     
-    color_step = 256 // len(node_colors)  # Крок для зміни кольору
+    # Генерація градієнтних кольорів
+    num_nodes = 6  # Приклад для 6 вузлів
+    node_colors = ['#999999'] * num_nodes  # Сірі кольори для початкового стану
+    gradient_colors = generate_gradient_colors(num_nodes)
     
     while queue:
         current = queue.pop(0)
@@ -89,8 +102,8 @@ def bfs(root):
             visited.add(current.value)
             visited_nodes.append(current.value)
             
-            # Змінюємо колір вузла при його відвідуванні
-            node_colors[visited_nodes.index(current.value)] = '#' + ''.join(random.choices('0123456789ABCDEF', k=6))
+            # Присвоєння градієнтного кольору
+            node_colors[visited_nodes.index(current.value)] = gradient_colors[len(visited_nodes) - 1]
             draw_tree_with_colors(root, visited_nodes, node_colors=node_colors)
             
             if current.left:
